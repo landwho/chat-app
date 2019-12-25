@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="mobile-web-app-capable" content="no">
+
+<link rel="icon" sizes="192x192" href="js/chat.jpg">
+
+<title>Chat Chatea</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+<link href="../public/css/chat.style.css">
+
+<script src="/socket.io/socket.io.js"></script>
+
+
+</head>
+
+<body class="mybg" ng-app="myApp" ng-controller="chatController">
+
+
+       <div id="chat-container" ng-hide="username==null"> 
+        <ul class="nav justify-content-end">
+            <li class="nav-item online" maxlength="80">
+                <a maxlength="80" class="nav-link online"><i class="fa fa-user fa-user-connected" aria-hidden="true"></i> {{usernav}}</a>
+              </li>
+            <li class="nav-item select" ng-click="roomModal()">
+              <a class="nav-link active"><i class="fa fa-window-restore fa-rooms" aria-hidden="true"></i></a>
+            </li>
+            <li class="nav-item select" ng-click="userlist()">
+              <a class="nav-link"><i class="fa fa-users fa-online" aria-hidden="true" id="enlinea"></i></a>
+            </li> 
+            <li class="nav-item select">
+              <a class="nav-link" href="index" ng-click="logout()" tabindex="-1" aria-disabled="true"><i class="fa fa-power-off off" aria-hidden="true"></i></a>
+            </li>
+        </ul>
+
+
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-10 col-xs-12">
+                            <div id="chat-window">
+                                    <p id="output" class="text-break"></p>
+
+                            </div>
+
+
+
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" 
+                            id="typing" ng-keypress="($event.charCode==13)?keyword():return" 
+                            ng-model="message" placeholder="mensaje">
+                            <div class="input-group-append">
+                                <span class="input-group-text select" ng-click="enviarMessage(event)">Enviar</span>
+                            </div>
+                        </div>
+                              
+
+
+
+
+
+                     
+                    </div>
+
+
+
+                    <div class="col-md-2 d-none d-sm-block d-xs-block">
+                        <div class="todo-user-list"><strong> Todos los Usuarios</strong></div>
+                        <!--<div style="margin-left: -11px;"><i class="fa fa-search" aria-hidden="true"><input type="text" placeholder="Todos los Usuarios" class="lookUp" ng-model="lookUp"></i></div>-->
+                        <div class="todo-list">
+                          
+                            <!--<div ng-repeat="u in users | filter:lookUp">
+                                <div ng-if="u.gender=='mujer'" class="todo-user-list-boder">
+                                    <i class="fa fa-user m"></i>   {{u.username}}
+                                </div>
+                                <div ng-if="u.gender=='hombre'" class="todo-user-list-boder">
+                                    <i class="fa fa-user h"></i>   {{u.username}}
+                                </div>
+                                <div ng-if="u.gender=='noespecificado'" class="todo-user-list-boder">
+                                    <i class="fa fa-question xx"></i>   {{u.username}}
+                                </div>
+                            </div>-->
+
+                            
+                            <div id="users" style="overflow: hidden;"></div> 
+                    
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+   
+
+
+            <!--<input type="tex" id="typing" my-enter="doSomething()" ng-model="message" placeholder="mensaje">-->
+            <!--<button ng-click="enviarMessage(event)"  ng-disabled="btnflag">Enviar</button>-->
+           
+        <!--    <input type="tex" id="typing" ng-keypress="($event.charCode==13)?keyword():return" ng-model="message" placeholder="mensaje">
+            <button ng-click="enviarMessage(event)">Enviar</button> -->
+            
+        
+       </div>
+    
+    
+
+
+
+</body>
+
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<script src="/socket.io/socket.io.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.7.8/angular.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-sanitize/1.5.11/angular-sanitize.js"></script>
+<!--<script src="js/chatController.js"></script>-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.5.0/ui-bootstrap-tpls.js"></script>
+<script src="https://rawgit.com/dwmkerr/angular-modal-service/master/dst/angular-modal-service.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-route.js"></script>
+<script src="./chat.controller.js"></script>
+<script src="./chat.js"></script>
+
+
+
+</html>
+
+
+
+
+<style>
+    /*
+    body {
+        background: #d4e2ca;
+        height: 100vh;
+    }
+    */
+    
+    body {
+        background: #597b40;
+        height: 100vh;
+    }
+    
+    .interface {
+        display: block;
+        position: fixed;
+        background: #ffffff00;
+        z-index: 100;
+    }
+    
+    .cardstyle{
+        /*margin-top: 121px;*/
+        background-color: white;
+        /*height: 250px;*/
+        box-shadow: 1px 3px 5px rgba(0,0,0,.5);
+    }
+    
+    /*#chat-container{
+        margin: 0px auto;
+        border: 1px solid #ddd;
+       height: 100%;
+    }*/
+    #chat-container {
+        margin: 0px auto;
+      /*  height: 100%;*/
+      height: 100vh;
+    }
+    .title{
+        font-weight: 800;
+        font-family: Brush Script MT,cursive;
+      /*  font-variant: all-petite-caps;
+        -webkit-text-stroke: thick; */
+    }
+    .center-text{
+        text-align: center;
+    }
+    .text-break{
+        word-break: break-word;
+    }
+    /*.online{
+        color: #53bf53;
+        font-weight: 700;
+        overflow: hidden;
+        margin-left: -10px;
+    }*/
+    .online {
+        color: #a1f5a1;
+        font-weight: 700;
+        overflow: hidden;
+        margin-left: -10px;
+    }
+    .online-margin{
+        margin-left: 15px;
+    }
+    /*.fa-online{
+        color: #6c757d;
+    }*/
+    .fa-online {
+        color: #e7e9ec;
+    }
+    /*.fa-rooms{
+        color: #6c757d;
+    }*/
+    .fa-rooms {
+        color: #e7e9ec;
+    }
+    .fa-user-connected{
+        font-size: 15px;
+    }
+    /*.off{
+        color: #e44343;
+        font-weight: 600;
+    }*/
+    .off {
+        color: #771414;
+        font-weight: 600;
+    }
+    .online-icon{
+        color: #a1f5a1;
+        font-size: 10px;
+    }
+    /*.todo-user-list{
+        color: #6c757d;
+        font-weight: 700;
+        overflow: hidden;
+        margin-left: -10px;
+        text-align: center;
+    }*/
+    .todo-user-list {
+        color: #6c757d;
+        font-weight: 700;
+        overflow: hidden;
+        margin-left: -22px;
+        text-align: center;
+        background: aliceblue;
+    }
+    .todo-user-list-boder{
+        border-bottom: 1px solid #ece4e473;
+    }
+    .users-online{
+        padding: 1px;
+    }
+    .u-li-title{ 
+        position: fixed; 
+        font-weight: 800;
+        position: fixed;
+        background: #5f9ea0fa;
+       
+    }
+    .user-text-color{color: #7d7d7d}
+    .select{
+        cursor: pointer;
+    }
+    /*.todo-list{
+        color: #555;
+        height: 75vh; 
+        font-weight: 500;
+        overflow-y: scroll;
+        margin-left: -10px;
+    }*/
+    
+    .todo-list {
+        color: #555;
+        height: 76vh;
+        font-weight: 500;
+        overflow-y: scroll;
+        margin-left: -22px;
+        padding: 10px;
+        background: white;
+    }
+    .h{color: #2b2bee;}
+    .m{color: #de11a9;}
+    .xx{ color:#f60a2a;}
+    
+    #chat-window{
+        background: #ffffff;
+        padding: 14px 0;
+        margin: 0 -8px;
+        border-bottom: 1px solid #e9e9e9;
+        color:#555;
+        height:80vh;
+        overflow-y:scroll;
+        box-shadow: 1px 3px 5px rgba(0,0,0,.5);
+    }
+    
+    #actions p{
+       padding: 14px 0;
+       margin: 0 20px;
+       border-bottom: 1px solid #e9e9e9;
+       color: #555;
+    }
+    
+    #output p {
+        color: #686b6d;
+        padding: 5px 0;
+        margin: 0 20px;
+        font-weight: 500;
+        border-bottom: 1px solid #efefef;
+    }
+    
+    .input-modal{
+        padding: 10px 20px;
+        box-sizing: border-box;
+        border: 0;
+        background: #eee;
+        display: block;
+        width: 100%;
+    }
+    
+    .lookUp{
+         
+           box-sizing: border-box;
+           border: 0;
+           background: #eeeeee05;
+          /* display: block;
+           width: 100%; */
+    }
+    
+    button{
+        background: #cad2e0;
+        color: #6c757d;
+        font-size: 18px;
+        font-weight: 700;
+        border: 0;
+        padding: 12px 0;
+        width: 100%;
+        border-radius: 0 0 2px 2px;
+    }
+    
+    
+    
+    #messages{
+        width:100%;
+        max-width:400px;
+        height:354px;
+        overflow-y:scroll;
+        border:1px solid #eee;
+        box-shadow:0px 0px 20px #ccc inset;
+    }
+    .message{
+        margin:20px;
+        padding:5px;
+        border-radius:5px;
+        border:1px solid;
+    }
+    
+    
+    
+    
+    
+    .mybg {
+      position: relative;/*important*/
+      z-index: 3;/*important*/
+     /* width: 600px;*/
+      /*height: 100vh;*/
+      margin: 0 auto;
+    }
+    
+    .mybg:after {
+         background: url("pattern.jpg") center  repeat;
+        content: "";
+        background-size: 200px 200px;
+        position: absolute;/*important*/
+        bottom: 0;/*its super important to set all the position to 0*/
+        left: 0;
+        right: 0;
+        top: 0;
+        opacity: 0.2;/*add some opacity*/
+        z-index: -1;/*important*/
+        } 
+    
+    
+    
+    
+    
+    
+    
+    
+        /**Modal style**/
+        
+    .modal {
+        display: block;
+        position: fixed;
+        background: #ffffff00;
+        z-index: 100;
+    }
+    .overlay {
+      display: block;
+      position: fixed;
+      top: 0; left: 0; bottom: 0; right: 0;
+      background: rgba(0, 0, 0, 0.5);
+    }
+    .room-list {
+        color: #555;
+        height: 75vh;
+        font-weight: 500;
+        overflow-y: scroll;
+        margin-left: 0;
+        background: white;
+    }
+    .room-img{
+        max-width: 55px;
+    }
+    .room-row{
+        padding: 15px;
+        color: #6c757d;
+        font-weight: 700;
+        box-shadow: 1px -2px 5px rgba(0,0,0,.5);
+    }
+    
+    .copyright{font-size: 8px;}
+    
+    /*
+    @media (min-width: 512px) {
+        .d-sm-block {
+            display: none!important;
+        }
+    }
+    */
+    @media (max-width: 765px) {
+        .d-sm-block {
+          display: none;
+        }
+        .d-none {
+            display: none!important; 
+        }
+      }
+    
+      .mb-3, .my-3 {
+        margin-bottom: 0rem!important;
+    }
+
+
+
+
+    
+.label-h{
+    font-size: 15px;
+    font-weight: 700;
+    color: #2b2bee;
+    padding: 5px;
+}
+.label-m{
+    font-size: 15px;
+    font-weight: 700;
+    color: #de11a9;
+    padding: 5px;
+}
+.label-xx{
+    font-size: 15px;
+    font-weight: 700;
+    color:#f60a2a;
+    padding: 5px;
+}
+
+
+
+    </style>

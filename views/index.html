@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="mobile-web-app-capable" content="no">
+
+<link rel="icon" sizes="192x192" href="js/chat.jpg">
+
+<title>Chat Chatea</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+<link href="../public/css/chatstyle.css">
+</head>
+
+<body class="mybg" ng-app="myApp" ng-controller="chatController">
+
+<br>
+<br>
+<br>
+<div class="container">
+
+
+<h1><a  href="index"> Ir al Chat</a> </h1>
+
+
+
+
+
+
+ 
+</div>
+
+
+
+
+    
+      
+     
+       
+
+
+
+
+
+
+
+
+
+</body>
+
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<script src="/socket.io/socket.io.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.7.8/angular.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-sanitize/1.5.11/angular-sanitize.js"></script>
+<!--<script src="js/chatController.js"></script>-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.5.0/ui-bootstrap-tpls.js"></script>
+<script src="https://rawgit.com/dwmkerr/angular-modal-service/master/dst/angular-modal-service.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-route.js"></script>
+<script src="./registro.js"></script>
+<script src="./chat.controller.js"></script>
+
+</html>
+
+
+
+
+<style>
+    /*
+    body {
+        background: #d4e2ca;
+        height: 100vh;
+    }
+    */
+    
+    body {
+        background: #597b40;
+        height: 100vh;
+    }
+    
+    
+    .cardstyle{
+        /*margin-top: 121px;*/
+        background-color: white;
+        /*height: 250px;*/
+        box-shadow: 1px 3px 5px rgba(0,0,0,.5);
+    }
+    
+    button{
+        background: #cad2e0;
+        color: #6c757d;
+        font-size: 18px;
+        font-weight: 700;
+        border: 0;
+        padding: 12px 0;
+        width: 100%;
+        border-radius: 0 0 2px 2px;
+    }
+    
+   
+    
+    
+    
+    
+    
+    .mybg {
+      position: relative;/*important*/
+      z-index: 3;/*important*/
+     /* width: 600px;*/
+      /*height: 100vh;*/
+      margin: 0 auto;
+    }
+    
+    .mybg:after {
+         background: url("pattern.jpg") center  repeat;
+        content: "";
+        background-size: 200px 200px;
+        position: absolute;/*important*/
+        bottom: 0;/*its super important to set all the position to 0*/
+        left: 0;
+        right: 0;
+        top: 0;
+        opacity: 0.2;/*add some opacity*/
+        z-index: -1;/*important*/
+        } 
+    
+    
+    
+    
+    
+    
+
+
+
+    
+.label-h{
+    font-size: 15px;
+    font-weight: 700;
+    color: #2b2bee;
+    padding: 5px;
+}
+.label-m{
+    font-size: 15px;
+    font-weight: 700;
+    color: #de11a9;
+    padding: 5px;
+}
+.label-xx{
+    font-size: 15px;
+    font-weight: 700;
+    color:#f60a2a;
+    padding: 5px;
+}
+
+
+
+    </style>

@@ -1,0 +1,13 @@
+<div class="overlay"/>
+<div class="modal">
+    <input type="text" placeholder="Buscar sala" class="input-modal" ng-model="searchRoom">
+    <div class="room-list">
+        <div ng-repeat="u in rooms | filter:searchRoom">
+            <div class="room-row select">
+                <img class="room-img" src="room-logo.jpg" alt="">  {{u.roomname}}
+            </div>
+        </div>
+    </div>
+    <button ng-click="cerrarModal()">Cerrar</button>
+</div>
+
